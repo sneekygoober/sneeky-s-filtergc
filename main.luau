@@ -3,7 +3,7 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
 
     if s and not s.Parent then return false; end;
 
-    if filtergc then
+    if not strict and filtergc then
         local res: ((...any) -> (...any)) | boolean = filtergc("function", {
             Constants = consts,
             IgnoreExecutor = true
