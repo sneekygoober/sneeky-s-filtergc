@@ -17,8 +17,9 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
             if isfunctionhooked and isfunctionhooked(v) then
                 restorefunction(v);
             end;
-
-            if not s or rawget(getfenv(v), "script") == s then
+            local scr = rawget(getfenv(v), "script");
+            print(scr);
+            if not s or scr == s then
                 print(2)
                 return v;
             end;
@@ -43,8 +44,9 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
                 if isfunctionhooked and isfunctionhooked(v) then
                     restorefunction(v);
                 end;
-
-                if not s or rawget(getfenv(v), "script") == s then
+                local scr = rawget(getfenv(v), "script");
+                print(scr);
+                if not s or scr == s then
                     print(1)
                     if hasConsts(v) then
                         print(2)
