@@ -3,7 +3,7 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
 
     if s and not s.Parent then return false; end;
 
-    if not strict and filtergc then
+    if filtergc then
         local res: ((...any) -> (...any)) | boolean = filtergc("function", {
             Constants = consts,
             IgnoreExecutor = true
@@ -17,10 +17,8 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
             if isfunctionhooked and isfunctionhooked(v) then
                 restorefunction(v);
             end;
-            local scr = rawget(getfenv(v), "script");
-            print(scr);
-            if not s or scr == s then
-                print(2)
+
+            if not s or rawget(getfenv(v), "script") == s then
                 return v;
             end;
         end;
@@ -44,12 +42,9 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
                 if isfunctionhooked and isfunctionhooked(v) then
                     restorefunction(v);
                 end;
-                local scr = rawget(getfenv(v), "script");
-                print(scr);
-                if not s or scr == s then
-                    print(1)
+
+                if not s or rawget(getfenv(v), "script") == s then
                     if hasConsts(v) then
-                        print(2)
                         return v;
                     end;
                 end;
