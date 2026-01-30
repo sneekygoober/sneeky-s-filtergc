@@ -1,4 +1,4 @@
-return function(s: (LocalScript | ModuleScript)?, ...)
+return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
     local consts = {...};
 
     if s and not s.Parent then return false; end;
@@ -25,7 +25,7 @@ return function(s: (LocalScript | ModuleScript)?, ...)
     else
         local hasConsts = function(f: (...any) -> (...any))
             local _, _consts = pcall(debug.getconstants, f);
-            if not _ or not _consts or #consts ~= #_consts then return false; end;
+            if not _ or not _consts or (strict and (#consts ~= #_consts) or false) then return false; end;
             
             for v in consts do
                 if not table.find(_consts, v) then
