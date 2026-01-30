@@ -44,7 +44,7 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
                     restorefunction(v);
                 end;
 
-                if (not s) or (rawget(getfenv(v), "script") == s) then
+                if not s or rawget(getfenv(v), "script") == s then
                     print(1)
                     if hasConsts(v) then
                         print(2)
