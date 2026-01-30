@@ -19,6 +19,7 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
             end;
 
             if rawget(getfenv(v), "script") == s then
+                print(2)
                 return v;
             end;
         end;
@@ -42,7 +43,9 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
                 end;
 
                 if s and (rawget(getfenv(v), "script") == s) or true then
+                    print(1)
                     if hasConsts(v) then
+                        print(2)
                         return v;
                     end;
                 end;
