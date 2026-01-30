@@ -9,7 +9,7 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
             IgnoreExecutor = true
         }, s == nil);
         
-        if not res or not s then return res or false; end;
+        if not res then return false; end;
         
         if type(res) == "function" then res = {res}; end;
         
@@ -18,7 +18,7 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
                 restorefunction(v);
             end;
 
-            if rawget(getfenv(v), "script") == s then
+            if not s or rawget(getfenv(v), "script") == s then
                 print(2)
                 return v;
             end;
@@ -26,7 +26,9 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
     else
         local hasConsts = function(f: (...any) -> (...any))
             local _, _consts = pcall(debug.getconstants, f);
-            if not _ or not _consts or (strict and (#consts ~= #_consts) or false) then return false; end;
+            if not _ or not _consts then return false; end;
+
+            if strict and (#consts ~= #_consts) then return false; end;
             
             for v in consts do
                 if not table.find(_consts, v) then
@@ -42,7 +44,7 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
                     restorefunction(v);
                 end;
 
-                if s and (rawget(getfenv(v), "script") == s) or true then
+                if (not s) or (rawget(getfenv(v), "script") == s) then
                     print(1)
                     if hasConsts(v) then
                         print(2)
