@@ -18,7 +18,7 @@ return function(s: (LocalScript | ModuleScript)?, ...)
                 restorefunction(v);
             end;
 
-            if getfenv(v).script == s then
+            if rawget(getfenv(v), "script") == s then
                 return v;
             end;
         end;
@@ -41,7 +41,7 @@ return function(s: (LocalScript | ModuleScript)?, ...)
                     restorefunction(v);
                 end;
 
-                if s and (getfenv(v).script == s) or true then
+                if s and (rawget(getfenv(v), "script") == s) or true then
                     if hasConsts(v) then
                         return v;
                     end;
