@@ -14,7 +14,7 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
         if type(res) == "function" then res = {res}; end;
         
         for _, v in next, res do
-            if isfunctionhooked and isfunctionhooked(v) then
+            if isfunctionhooked and restorefunction and isfunctionhooked(v) then
                 restorefunction(v);
             end;
 
@@ -22,7 +22,7 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
                 return v;
             end;
         end;
-    else
+    elseif getgc then
         local hasConsts = function(f: (...any) -> (...any))
             local _, _consts = pcall(debug.getconstants, f);
             if not _ or not _consts then return false; end;
@@ -39,7 +39,7 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
 
         for _, v in next, getgc() do
             if type(v) == "function" and not isexecutorclosure(v) then
-                if isfunctionhooked and isfunctionhooked(v) then
+                if isfunctionhooked and restorefunction and isfunctionhooked(v) then
                     restorefunction(v);
                 end;
 
