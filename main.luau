@@ -38,7 +38,7 @@ return function(s: (LocalScript | ModuleScript)?, strict: boolean, ...)
         end;
 
         for _, v in next, getgc() do
-            if type(v) == "function" and not isexecutorclosure(v) then
+            if type(v) == "function" and not (isexecutorclosure and isexecutorclosure(v)) then
                 if isfunctionhooked and restorefunction and isfunctionhooked(v) then
                     restorefunction(v);
                 end;
